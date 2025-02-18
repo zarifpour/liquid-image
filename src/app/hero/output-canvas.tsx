@@ -55,7 +55,10 @@ export function OutputCanvas({ imageData, params }: { imageData: ImageData; para
   useEffect(() => {
     function initShader() {
       const canvas = canvasRef.current;
-      const gl = canvas?.getContext('webgl2');
+      const gl = canvas?.getContext('webgl2', {
+        antialias: true,
+        alpha: true,
+      });
       if (!canvas || !gl) {
         toast.error('Failed to initialize shader. Does your browser support WebGL2?');
         return;

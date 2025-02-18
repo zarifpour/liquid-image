@@ -17,7 +17,7 @@ export const Hero = ({ initialImageId }: HeroProps) => {
 
   const params: ShaderParams = useControls({
     refraction: { value: 0.015, min: 0, max: 0.1, step: 0.001 },
-    edgeBlur: { value: 0.1, min: 0, max: 1, step: 0.01 },
+    edgeBlur: { value: 0.4, min: 0, max: 1, step: 0.01 },
     patternBlur: { value: 0.005, min: 0, max: 0.1, step: 0.001 },
     liquid: { value: 0.0, min: 0, max: 1, step: 0.01 },
     speed: { value: 0.3, min: 0, max: 1, step: 0.01 },
