@@ -2,10 +2,10 @@
 
 /** Cleans up the input image by turning it into a black and white mask with a beveled edge */
 
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
-
 export function parseLogoImage(file: File): Promise<ImageData> {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
   return new Promise((resolve, reject) => {
     if (!file || !ctx) {
       reject(new Error('Invalid file or context'));
