@@ -9,14 +9,11 @@ import { toast } from 'sonner';
 // uniform float u_time;
 // uniform float u_ratio;
 // uniform float u_img_ratio;
-// uniform float u_cycleWidth;
-
+// uniform float u_patternScale;
 // uniform float u_refraction;
-// uniform float u_edgesPower;
-// uniform float u_edgesWidth;
 // uniform float u_edgeBlur;
-// uniform float u_stripesBlur;
-// uniform float u_noisePower;
+// uniform float u_patternBlur;
+// uniform float u_liquid;
 // uniform float u_speed;
 
 const vertexShaderSource = `#version 300 es
@@ -31,14 +28,12 @@ void main() {
 }` as const;
 
 const defaultParameters = {
-  cycleWidth: 1.6,
-  refraction: 0.03,
-  edgesWidth: 0.3,
-  edgesPower: 0.2,
-  edgeBlur: 0.04,
-  stripesBlur: 0.02,
-  noisePower: 0.1,
-  speed: 0.3,
+  patternScale: 2,
+  refraction: .015,
+  edgeBlur: .5,
+  patternBlur: .005,
+  liquid: .0,
+  speed: .3,
 } as const;
 
 export function OutputCanvas({ imageData }: { imageData: ImageData }) {
@@ -51,13 +46,11 @@ export function OutputCanvas({ imageData }: { imageData: ImageData }) {
     console.log('updating uniforms');
     if (!gl || !uniforms) return;
     gl.uniform1f(uniforms.u_edgeBlur, params.edgeBlur);
-    gl.uniform1f(uniforms.u_stripesBlur, params.stripesBlur);
+    gl.uniform1f(uniforms.u_patternBlur, params.patternBlur);
     gl.uniform1f(uniforms.u_speed, params.speed);
-    gl.uniform1f(uniforms.u_cycleWidth, params.cycleWidth);
+    gl.uniform1f(uniforms.u_patternScale, params.patternScale);
     gl.uniform1f(uniforms.u_refraction, params.refraction);
-    gl.uniform1f(uniforms.u_edgesPower, params.edgesPower);
-    gl.uniform1f(uniforms.u_edgesWidth, params.edgesWidth);
-    gl.uniform1f(uniforms.u_noisePower, params.noisePower);
+    gl.uniform1f(uniforms.u_liquid, params.liquid);
   }
 
   useEffect(() => {
@@ -172,28 +165,13 @@ export function OutputCanvas({ imageData }: { imageData: ImageData }) {
     function resizeCanvas() {
       if (!canvasEl || !gl || !uniforms) return;
       const imgRatio = imageData.width / imageData.height;
+      gl.uniform1f(uniforms.u_img_ratio, imgRatio);
 
-      // Set max dimension to 500px
-      const maxSize = 500;
-      let width, height;
-      if (imgRatio > 1) {
-        width = Math.min(maxSize, imageData.width);
-        height = width / imgRatio;
-      } else {
-        height = Math.min(maxSize, imageData.height);
-        width = height * imgRatio;
-      }
-
-      canvasEl.width = width * devicePixelRatio;
-      canvasEl.height = height * devicePixelRatio;
-
-      // Set canvas style dimensions for actual display size
-      canvasEl.style.width = `${width}px`;
-      canvasEl.style.height = `${height}px`;
-
-      gl.viewport(0, 0, canvasEl.width, canvasEl.height);
-      const canvasRatio = canvasEl.width / canvasEl.height;
-      gl.uniform1f(uniforms.u_ratio, canvasRatio);
+      const side = 1000;
+      canvasEl.width = side * devicePixelRatio;
+      canvasEl.height = side * devicePixelRatio;
+      gl.viewport(0, 0, canvasEl.height, canvasEl.height);
+      gl.uniform1f(uniforms.u_ratio, 1);
       gl.uniform1f(uniforms.u_img_ratio, imgRatio);
     }
 
@@ -255,8 +233,8 @@ export function OutputCanvas({ imageData }: { imageData: ImageData }) {
   }, [gl, uniforms, imageData]);
 
   return (
-    <div className="flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1] p-8">
-      <canvas ref={canvasRef} />
+    <div className="flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1]">
+      <canvas ref={canvasRef} className="block max-w-full" />
     </div>
   );
 }
