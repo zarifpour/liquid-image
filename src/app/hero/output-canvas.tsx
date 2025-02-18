@@ -14,7 +14,6 @@ import { toast } from 'sonner';
 // uniform float u_edgeBlur;
 // uniform float u_patternBlur;
 // uniform float u_liquid;
-// uniform float u_speed;
 
 const vertexShaderSource = `#version 300 es
 precision mediump float;
@@ -40,13 +39,16 @@ export function OutputCanvas({ imageData, params }: { imageData: ImageData; para
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gl, setGl] = useState<WebGL2RenderingContext | null>(null);
   const [uniforms, setUniforms] = useState<Record<string, WebGLUniformLocation>>({});
+  /** Keeps track of how long we've been playing, fed into u_time */
+  const totalAnimationTime = useRef(0);
+  const lastRenderTime = useRef(0);
 
   function updateUniforms() {
     console.log('updating uniforms');
     if (!gl || !uniforms) return;
     gl.uniform1f(uniforms.u_edgeBlur, params.edgeBlur);
     gl.uniform1f(uniforms.u_patternBlur, params.patternBlur);
-    gl.uniform1f(uniforms.u_speed, params.speed);
+    gl.uniform1f(uniforms.u_time, 0);
     gl.uniform1f(uniforms.u_patternScale, params.patternScale);
     gl.uniform1f(uniforms.u_refraction, params.refraction);
     gl.uniform1f(uniforms.u_liquid, params.liquid);
@@ -146,19 +148,28 @@ export function OutputCanvas({ imageData, params }: { imageData: ImageData; para
     if (!gl || !uniforms) return;
 
     let renderId: number;
-    function render() {
-      const currentTime = performance.now();
-      gl!.uniform1f(uniforms.u_time, currentTime);
+
+    function render(currentTime: number) {
+      const deltaTime = currentTime - lastRenderTime.current;
+      lastRenderTime.current = currentTime;
+
+      // Update the total animation time and time uniform
+      totalAnimationTime.current += deltaTime * params.speed;
+      gl!.uniform1f(uniforms.u_time, totalAnimationTime.current);
+      // Draw!
       gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+      // rAF
       renderId = requestAnimationFrame(render);
     }
 
-    render();
+    // Kick off the render loop
+    lastRenderTime.current = performance.now();
+    renderId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(renderId);
     };
-  }, [gl]);
+  }, [gl, params.speed]);
 
   useEffect(() => {
     const canvasEl = canvasRef.current;

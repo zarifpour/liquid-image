@@ -13,7 +13,6 @@ uniform float u_refraction;
 uniform float u_edgeBlur;
 uniform float u_patternBlur;
 uniform float u_liquid;
-uniform float u_speed;
 
 
 #define TWO_PI 6.28318530718
@@ -106,9 +105,7 @@ void main() {
 
     float diagonal = uv.x - uv.y;
 
-    float t = .001 * u_speed * u_time;
-    // float t = u_speed;
-
+    float t = .001 * u_time;
 
     vec2 img_uv = get_img_uv();
     vec4 img = texture(u_image_texture, img_uv);
