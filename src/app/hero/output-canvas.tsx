@@ -29,11 +29,11 @@ void main() {
 
 const defaultParameters = {
   patternScale: 2,
-  refraction: .015,
-  edgeBlur: .5,
-  patternBlur: .005,
-  liquid: .0,
-  speed: .3,
+  refraction: 0.015,
+  edgeBlur: 0.1,
+  patternBlur: 0.005,
+  liquid: 0.0,
+  speed: 0.3,
 } as const;
 
 export function OutputCanvas({ imageData }: { imageData: ImageData }) {

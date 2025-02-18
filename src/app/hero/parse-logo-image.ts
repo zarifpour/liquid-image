@@ -2,7 +2,7 @@
 
 /** Cleans up the input image by turning it into a black and white mask with a beveled edge */
 
-export function parseLogoImage(file: File): Promise<ImageData> {
+export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngBlob: Blob }> {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
@@ -122,6 +122,7 @@ export function parseLogoImage(file: File): Promise<ImageData> {
       }
       const alpha = 2.0; // Adjust for contrast.
       const outImg = ctx.createImageData(width, height);
+
       for (var y = 0; y < height; y++) {
         for (var x = 0; x < width; x++) {
           var idx = y * width + x;
@@ -142,7 +143,17 @@ export function parseLogoImage(file: File): Promise<ImageData> {
           }
         }
       }
-      resolve(outImg);
+      ctx.putImageData(outImg, 0, 0);
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error('Failed to create PNG blob'));
+          return;
+        }
+        resolve({
+          imageData: outImg,
+          pngBlob: blob,
+        });
+      }, 'image/png');
     };
 
     img.onerror = () => reject(new Error('Failed to load image'));

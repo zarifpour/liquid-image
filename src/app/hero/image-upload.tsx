@@ -11,7 +11,6 @@ interface FileUploadProps {
 
 export const ImageUpload: React.FC<FileUploadProps> = ({ onFileSelect, className }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -51,18 +50,18 @@ export const ImageUpload: React.FC<FileUploadProps> = ({ onFileSelect, className
       const file = files[0];
       const fileType = file.type;
 
+      // Check file size (4.5MB = 4.5 * 1024 * 1024 bytes)
+      const maxSize = 4.5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        toast.error('File size must be less than 4.5MB');
+        return;
+      }
+
       // Check if file is an image or SVG
       if (fileType.startsWith('image/') || fileType === 'image/svg+xml') {
         if (onFileSelect) {
           onFileSelect(file);
         }
-
-        // Create preview (can remove this later)
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreview(reader.result as string);
-        };
-        reader.readAsDataURL(file);
       } else {
         toast.error('Please upload only images or SVG files');
       }
