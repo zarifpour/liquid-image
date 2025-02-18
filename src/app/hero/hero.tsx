@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { ImageUpload } from './image-upload';
-import { OutputCanvas } from './output-canvas';
+import { OutputCanvas, ShaderParams } from './output-canvas';
 import { parseLogoImage } from './parse-logo-image';
 import { uploadImage } from './upload-image';
+import { useControls } from 'leva';
 
 type HeroProps = {
   initialImageId?: string;
@@ -13,6 +14,15 @@ type HeroProps = {
 export const Hero = ({ initialImageId }: HeroProps) => {
   const [imageData, setImageData] = useState<ImageData | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
+
+  const params: ShaderParams = useControls({
+    refraction: { value: 0.015, min: 0, max: 0.1, step: 0.001 },
+    edgeBlur: { value: 0.1, min: 0, max: 1, step: 0.01 },
+    patternBlur: { value: 0.005, min: 0, max: 0.1, step: 0.001 },
+    liquid: { value: 0.0, min: 0, max: 1, step: 0.01 },
+    speed: { value: 0.3, min: 0, max: 1, step: 0.01 },
+    patternScale: { value: 2, min: 0, max: 10, step: 0.1 },
+  });
 
   // Check URL for image ID on mount
   useEffect(() => {
@@ -60,7 +70,7 @@ export const Hero = ({ initialImageId }: HeroProps) => {
         </div>
       )}
       <ImageUpload onFileSelect={handleUserUpload} />
-      {imageData && <OutputCanvas imageData={imageData} />}
+      {imageData && <OutputCanvas imageData={imageData} params={params} />}
     </div>
   );
 };

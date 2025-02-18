@@ -27,18 +27,17 @@ void main() {
     gl_Position = vec4(a_position, 0.0, 1.0);
 }` as const;
 
-const defaultParameters = {
-  patternScale: 2,
-  refraction: 0.015,
-  edgeBlur: 0.1,
-  patternBlur: 0.005,
-  liquid: 0.0,
-  speed: 0.3,
-} as const;
+export type ShaderParams = {
+  patternScale: number;
+  refraction: number;
+  edgeBlur: number;
+  patternBlur: number;
+  liquid: number;
+  speed: number;
+};
 
-export function OutputCanvas({ imageData }: { imageData: ImageData }) {
+export function OutputCanvas({ imageData, params }: { imageData: ImageData; params: ShaderParams }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [params, setParams] = useState<typeof defaultParameters>(defaultParameters);
   const [gl, setGl] = useState<WebGL2RenderingContext | null>(null);
   const [uniforms, setUniforms] = useState<Record<string, WebGLUniformLocation>>({});
 
@@ -233,7 +232,7 @@ export function OutputCanvas({ imageData }: { imageData: ImageData }) {
   }, [gl, uniforms, imageData]);
 
   return (
-    <div className="flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1]">
+    <div className="flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1] p-10">
       <canvas ref={canvasRef} className="block max-w-full" />
     </div>
   );
