@@ -254,5 +254,9 @@ export function OutputCanvas({ imageData }: { imageData: ImageData }) {
     };
   }, [gl, uniforms, imageData]);
 
-  return <canvas ref={canvasRef} />;
+  return (
+    <div className="flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1] p-8">
+      <canvas ref={canvasRef} />
+    </div>
+  );
 }
