@@ -21,7 +21,7 @@ export default async function Page({ params }: PageProps) {
 
         <span className="pt-8 md:absolute md:left-1/2 md:-translate-x-1/2">Liquid Metal Shader</span>
 
-        <span className="flex gap-24 pt-8 sm:gap-28">
+        <span className="sm:gap-28 flex gap-24 pt-8">
           <NextLink className="hover:underline" href="https://x.com/paper">
             @paper
           </NextLink>
@@ -34,14 +34,14 @@ export default async function Page({ params }: PageProps) {
         </Suspense>
       </div>
 
-      <div className="mb-16 flex w-full select-none gap-24 overflow-scroll p-16 text-sm *:first:ml-auto *:last:mr-auto">
+      <div className="mb-16 flex w-full gap-24 overflow-scroll p-16 text-sm select-none *:first:ml-auto *:last:mr-auto">
         {logos.map((group, i) => (
           <Fragment key={i}>
             <div key={i} className="flex">
               {group.map(({ name, href, src }) => (
                 <NextLink key={src} href={href} className="group flex flex-col gap-8 text-center">
-                  <div className="h-100 w-160 rounded-8 flex items-center justify-center p-24 opacity-40 outline -outline-offset-1 outline-transparent transition-[opacity,outline] duration-150 hover:duration-0 group-hover:opacity-100 group-hover:outline-white/40">
-                    <img alt={name + ' Logo'} src={src} className="w-152 h-52 object-contain" />
+                  <div className="flex h-100 w-160 items-center justify-center rounded-8 p-24 opacity-40 outline -outline-offset-1 outline-transparent transition-[opacity,outline] duration-150 group-hover:opacity-100 group-hover:outline-white/40 hover:duration-0">
+                    <img alt={name + ' Logo'} src={src} className="h-52 w-152 object-contain" />
                   </div>
                   <span className="text-white/70">{name}</span>
                 </NextLink>
@@ -86,14 +86,14 @@ const logos = [
   ],
   [
     {
-      name: 'Discord',
-      href: '/share/01JMFQS93Q6R2VRQ62HTAA2AKG',
-      src: '/logos/discord.svg',
-    },
-    {
       name: 'Vercel',
       href: '/share/01JMFQ1ESB52205RRGSHCXHCZG?edgeBlur=0.01',
       src: '/logos/vercel.svg',
+    },
+    {
+      name: 'Discord',
+      href: '/share/01JMFQS93Q6R2VRQ62HTAA2AKG',
+      src: '/logos/discord.svg',
     },
     // {
     //   name: 'Remix',
