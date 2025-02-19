@@ -44,7 +44,6 @@ export function OutputCanvas({ imageData, params }: { imageData: ImageData; para
   const lastRenderTime = useRef(0);
 
   function updateUniforms() {
-    console.log('updating uniforms');
     if (!gl || !uniforms) return;
     gl.uniform1f(uniforms.u_edgeBlur, params.edgeBlur);
     gl.uniform1f(uniforms.u_patternBlur, params.patternBlur);
