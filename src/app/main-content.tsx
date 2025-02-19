@@ -25,6 +25,8 @@ export function MainContent({ initialImageId }: MainContentProps) {
           If you're a designer: <a href="https://paper.design">paper.design</a>
           <br />
           If you're a developer: <a href="https://github.com/paper-design/paper">paper shaders</a>
+          <br />
+          <a href="https://github.com/paper-design/liquid-logo">Check out this app on GitHub</a>
         </p>
 
         <p>
