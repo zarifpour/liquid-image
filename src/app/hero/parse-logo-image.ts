@@ -15,17 +15,28 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
     const img = new Image();
     img.onload = function () {
       const MAX_SIZE = 1000;
+      const MIN_SIZE = 500;
       let width = img.naturalWidth;
       let height = img.naturalHeight;
 
-      // Calculate new dimensions if image is too large
-      if (width > MAX_SIZE || height > MAX_SIZE) {
+      // Calculate new dimensions if image is too large or too small
+      if (width > MAX_SIZE || height > MAX_SIZE || width < MIN_SIZE || height < MIN_SIZE) {
         if (width > height) {
-          height = Math.round((height * MAX_SIZE) / width);
-          width = MAX_SIZE;
+          if (width > MAX_SIZE) {
+            height = Math.round((height * MAX_SIZE) / width);
+            width = MAX_SIZE;
+          } else if (width < MIN_SIZE) {
+            height = Math.round((height * MIN_SIZE) / width);
+            width = MIN_SIZE;
+          }
         } else {
-          width = Math.round((width * MAX_SIZE) / height);
-          height = MAX_SIZE;
+          if (height > MAX_SIZE) {
+            width = Math.round((width * MAX_SIZE) / height);
+            height = MAX_SIZE;
+          } else if (height < MIN_SIZE) {
+            width = Math.round((width * MIN_SIZE) / height);
+            height = MIN_SIZE;
+          }
         }
       }
 

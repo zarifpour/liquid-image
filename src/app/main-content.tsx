@@ -33,6 +33,10 @@ export function MainContent({ initialImageId }: MainContentProps) {
           <br />
           developers: <a href="https://github.com/paper-design/paper">paper shaders</a>
         </p>
+
+        <p>
+          <a href="https://x.com/paper">@paper on Twitter/X</a>
+        </p>
       </div>
     </div>
   );

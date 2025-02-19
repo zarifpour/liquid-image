@@ -47,7 +47,7 @@ export function Controls({ params, setParams }: { params: ShaderParams; setParam
         onChange={(value) => setParam('patternBlur', value)}
       />
       <Control
-        label="Liquid"
+        label="Liquify"
         value={params.liquid}
         min={0}
         max={1}
@@ -63,7 +63,7 @@ export function Controls({ params, setParams }: { params: ShaderParams; setParam
         onChange={(value) => setParam('speed', value)}
       />
       <Control
-        label="Pattern Scale"
+        label="Pattern Repeats"
         value={params.patternScale}
         min={0}
         max={10}

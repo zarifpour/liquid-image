@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Liquid Logo | Paper Design',
+  title: 'Turn your logo into liquid metal | Paper Design',
   description: 'Liquid metal for your logo by paper.design',
 };
 
