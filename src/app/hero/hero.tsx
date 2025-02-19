@@ -69,7 +69,7 @@ export const Hero = ({ initialImageId }: HeroProps) => {
       <ImageUpload onFileSelect={handleUserUpload} />
       {imageData && <OutputCanvas imageData={imageData} params={params} processing={processing} />}
 
-      {/* <CopyShareLink /> */}
+      <CopyShareLink />
 
       <Controls params={params} setParams={setParams} />
     </div>

@@ -17,11 +17,6 @@ export function MainContent({ initialImageId }: MainContentProps) {
           <Hero initialImageId={initialImageId} />
         </Suspense>
 
-        <p>
-          Tips: white or transparent background, any color or black will count as the shape shapes work better than
-          detail or text, SVG or high res PNG/JPG, aim for 500x500px at least, 4.5MB or smaller
-        </p>
-
         <Examples />
 
         <p>

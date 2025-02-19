@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="logosandtypes_com" data-name="logosandtypes com" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #5200ff;
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <g id="Layer_3" data-name="Layer 3">
+    <g id="Layer_3-2" data-name="Layer 3">
+      <g id="Layer_2" data-name="Layer 2">
+        <path id="Layer_3-3" data-name="Layer 3" class="cls-2" d="M0,0H150V150H0V0Z"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <polygon class="cls-1" points="44.3 40.77 76.92 40.77 76.92 19.18 9.59 19.18 43.47 100.65 68.39 100.63 44.3 40.77"/>
+    <polygon class="cls-1" points="66.19 134.02 91.22 134.02 138.71 19.14 111.66 19.14 66.19 134.02"/>
+  </g>
+</svg>

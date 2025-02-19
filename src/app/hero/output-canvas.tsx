@@ -252,7 +252,7 @@ export function OutputCanvas({
   }, [gl, uniforms, imageData]);
 
   return (
-    <div className="relative flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1] p-10">
+    <div className="relative flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1] p-16">
       <canvas ref={canvasRef} className="block max-w-full" />
 
       {processing && (

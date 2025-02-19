@@ -81,6 +81,8 @@ export const ImageUpload: React.FC<FileUploadProps> = ({ onFileSelect, className
         <label htmlFor="file-input" className="upload-button">
           Choose File
         </label>
+
+        <p>Tips: SVGs work best, shapes work better than words, color on top of white or transparent background</p>
       </div>
 
       <style jsx>{`

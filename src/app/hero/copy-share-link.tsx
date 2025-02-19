@@ -1,30 +1,21 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { toast } from 'sonner';
+
+// I have no idea why but if we useSTate in this file, next won't build with "Unexpected end of JSON input"
+// spent 30 minutes on this and still can't figure out what's going on
+// so just switching to sonner to give feedback that the url was copied
 
 export const CopyShareLink = () => {
-  const [copied, setCopied] = useState(false);
-
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleClick = useCallback(async () => {
-    try {
-      await navigator?.clipboard?.writeText(window.location.href);
-      setCopied(true);
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = setTimeout(() => {
-        setCopied(false);
-      }, 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  }, []);
+  function handleClick() {
+    navigator?.clipboard?.writeText(window.location.href);
+    toast.success('Copied to clipboard');
+    console.log('yoo');
+  }
 
   return (
     <button onClick={handleClick} className="w-[200px] rounded-lg bg-blue-500 p-2 text-sm text-white" type="button">
-      {copied ? <span>✓ Copied!</span> : <span>Copy Share Link</span>}
+      Copy Share Link
     </button>
   );
 };
