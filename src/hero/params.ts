@@ -10,7 +10,7 @@ export type ShaderParams = {
 export const params = {
   refraction: {
     min: 0,
-    max: 1,
+    max: 0.06,
     step: 0.001,
     default: 0.015,
   },
@@ -22,7 +22,7 @@ export const params = {
   },
   patternBlur: {
     min: 0,
-    max: 1,
+    max: 0.05,
     step: 0.001,
     default: 0.005,
   },
@@ -39,7 +39,7 @@ export const params = {
     default: 0.3,
   },
   patternScale: {
-    min: 0,
+    min: 1,
     max: 10,
     step: 0.1,
     default: 2,
