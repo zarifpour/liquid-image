@@ -24,7 +24,7 @@ export const Hero = ({ initialImageId }: HeroProps) => {
 
   // Check URL for image ID on mount
   useEffect(() => {
-    const loadImageId = initialImageId || '01JMDGK56CHM8EE73V2EQP3EMJ'; // apple logo
+    const loadImageId = initialImageId || '01JMEJ1N5330YWR605A6M5K1NF'; // apple logo svg capture
 
     setProcessing(true);
     fetch(`https://p1ljtcp1ptfohfxm.public.blob.vercel-storage.com/${loadImageId}.png`)

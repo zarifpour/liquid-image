@@ -151,6 +151,13 @@ export function Examples() {
           WorkOS
         </a>
       </div>
+
+      <div>
+        <a href="/">
+          <Image src="/examples/apple-logo.svg" alt="Apple Logo" width={imageSize} height={imageSize} />
+          Apple
+        </a>
+      </div>
     </div>
   );
 }
