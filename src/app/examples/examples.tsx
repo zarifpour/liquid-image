@@ -34,6 +34,13 @@ export function Examples() {
       </div>
 
       <div>
+        <a href="/share/01JMEGE08GE02EHJXSN7C3PTMB">
+          <Image src="/examples/discord-logo.svg" alt="Discord Logo" width={imageSize} height={imageSize} />
+          Discord
+        </a>
+      </div>
+
+      <div>
         <a href="/share/01JMEEJT7W0GBQ8XSR1SJAGTTX">
           <Image src="/examples/vercel-logo.png" alt="Vercel Logo" width={imageSize} height={imageSize} />
           Vercel
@@ -48,9 +55,9 @@ export function Examples() {
       </div>
 
       <div>
-        <a href="/share/01JMEENAEXX7XQPQ0S3TKH4MDW">
-          <Image src="/examples/supabase-logo.png" alt="Supabase Logo" width={imageSize} height={imageSize} />
-          Supabase
+        <a href="/share/01JMEG4WPQS8CDSHPCPFWC6Y9V">
+          <Image src="/examples/sketch-logo.svg" alt="Sketch Logo" width={imageSize} height={imageSize} />
+          Sketch
         </a>
       </div>
 
@@ -62,9 +69,23 @@ export function Examples() {
       </div>
 
       <div>
-        <a href="/share/01JMEG4WPQS8CDSHPCPFWC6Y9V">
-          <Image src="/examples/sketch-logo.svg" alt="Sketch Logo" width={imageSize} height={imageSize} />
-          Sketch
+        <a href="/share/01JMEJ8S7A01SZ2AAH3RS5KXDW">
+          <Image src="/examples/rive-logo.svg" alt="Rive Logo" width={imageSize} height={imageSize} />
+          Rive
+        </a>
+      </div>
+
+      <div>
+        <a href="/share/01JMEGERCBVMGH2K0YDRHFA0TW">
+          <Image src="/examples/framer-logo.svg" alt="Framer Logo" width={imageSize} height={imageSize} />
+          Framer
+        </a>
+      </div>
+
+      <div>
+        <a href="/share/01JMEG862DSVYS09DFC1BKXZ4D">
+          <Image src="/examples/adobe-logo.svg" alt="Adobe Logo" width={imageSize} height={imageSize} />
+          Adobe
         </a>
       </div>
 
@@ -76,9 +97,9 @@ export function Examples() {
       </div>
 
       <div>
-        <a href="/share/01JMEG862DSVYS09DFC1BKXZ4D">
-          <Image src="/examples/adobe-logo.svg" alt="Adobe Logo" width={imageSize} height={imageSize} />
-          Adobe
+        <a href="/share/01JMEENAEXX7XQPQ0S3TKH4MDW">
+          <Image src="/examples/supabase-logo.png" alt="Supabase Logo" width={imageSize} height={imageSize} />
+          Supabase
         </a>
       </div>
 
@@ -97,21 +118,7 @@ export function Examples() {
       </div>
 
       <div>
-        <a href="/share/01JMEGE08GE02EHJXSN7C3PTMB">
-          <Image src="/examples/discord-logo.svg" alt="Discord Logo" width={imageSize} height={imageSize} />
-          Discord
-        </a>
-      </div>
-
-      <div>
-        <a href="/share/01JMEGERCBVMGH2K0YDRHFA0TW">
-          <Image src="/examples/framer-logo.svg" alt="Framer Logo" width={imageSize} height={imageSize} />
-          Framer
-        </a>
-      </div>
-
-      <div>
-        <a href="/share/01JMEGF9RKBKMMG3YQ36DRNA58">
+        <a href="/share/01JMEGF9RKBKMMG3YQ36DRNA58?refraction=0.015&edgeBlur=0.08&patternBlur=0.005&liquid=0.06&speed=0.3&patternScale=2.9">
           <Image src="/examples/mac-rumors-logo.svg" alt="Mac Rumors Logo" width={imageSize} height={imageSize} />
           MacRumors
         </a>
@@ -132,8 +139,8 @@ export function Examples() {
       </div>
 
       <div>
-        <a href="share/01JMEGJNXKTV5BFYXKKB7D6SJG">
-          <Image src="/examples/framer-logo.svg" alt="Framer Logo" width={imageSize} height={imageSize} />
+        <a href="/share/01JMEGJNXKTV5BFYXKKB7D6SJG">
+          <Image src="/examples/base-ui-logo.svg" alt="Base UI Logo" width={imageSize} height={imageSize} />
           Base UI
         </a>
       </div>
