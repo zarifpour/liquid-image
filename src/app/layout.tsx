@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Turn your logo into liquid metal | Paper',
   description: 'Liquid metal for your logo by paper.design',
   openGraph: {
+    url: 'https://liquid.paper.design',
+    type: 'website',
+    locale: 'en_US',
     siteName: 'Liquid logo by Paper',
     title: 'Turn your logo into liquid metal | Paper',
     description: 'Liquid metal for your logo by paper.design',
