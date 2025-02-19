@@ -32,7 +32,7 @@ export default async function Page({ params }: PageProps) {
         </Suspense>
       </div>
 
-      <div className="mb-16 flex w-full gap-16 overflow-scroll p-16 text-sm select-none *:first:ml-auto *:last:mr-auto">
+      <div className="mb-16 flex w-full gap-24 overflow-scroll p-16 text-sm select-none *:first:ml-auto *:last:mr-auto">
         {logos.map((group, i) => (
           <Fragment key={i}>
             <div key={i} className="flex">
@@ -46,7 +46,7 @@ export default async function Page({ params }: PageProps) {
               ))}
             </div>
 
-            {i !== logos.length - 1 && <div className="h-100 w-1 bg-white/20" />}
+            {i !== logos.length - 1 && <div className="h-100 w-1 shrink-0 bg-white/20" />}
           </Fragment>
         ))}
       </div>
@@ -82,11 +82,26 @@ const logos = [
       src: '/logos/volkswagen.svg',
     },
   ],
-  // [
-  //   {
-  //     name: 'Vercel',
-  //     href: '/',
-  //     src: '/logos/vercel.svg',
-  //   },
-  // ],
+  [
+    {
+      name: 'Discord',
+      href: '/share/01JMFQS93Q6R2VRQ62HTAA2AKG',
+      src: '/logos/discord.svg',
+    },
+    {
+      name: 'Vercel',
+      href: '/share/01JMFQ1ESB52205RRGSHCXHCZG?edgeBlur=0.01',
+      src: '/logos/vercel.svg',
+    },
+    // {
+    //   name: 'Remix',
+    //   href: '/share/01JMFQ533G3TVC21E96RSAG4KF',
+    //   src: '/logos/remix.svg',
+    // },
+    {
+      name: 'Cloudflare',
+      href: '/share/01JMFQZ01HE5Q0TR647QV5W6YW',
+      src: '/logos/cloudflare.svg',
+    },
+  ],
 ];
