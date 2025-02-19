@@ -1,7 +1,7 @@
 export type ShaderParams = {
   patternScale: number;
   refraction: number;
-  edgeBlur: number;
+  edge: number;
   patternBlur: number;
   liquid: number;
   speed: number;
@@ -14,7 +14,7 @@ export const params = {
     step: 0.001,
     default: 0.015,
   },
-  edgeBlur: {
+  edge: {
     min: 0,
     max: 1,
     step: 0.01,

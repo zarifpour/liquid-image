@@ -296,12 +296,12 @@ export function Hero({ imageId }: HeroProps) {
           onValueChange={(value) => setState((state) => ({ ...state, refraction: value }))}
         />
         <Control
-          label="Edge Blur"
-          value={state.edgeBlur}
-          min={params.edgeBlur.min}
-          max={params.edgeBlur.max}
-          step={params.edgeBlur.step}
-          onValueChange={(value) => setState((state) => ({ ...state, edgeBlur: value }))}
+          label="Edge"
+          value={state.edge}
+          min={params.edge.min}
+          max={params.edge.max}
+          step={params.edge.step}
+          onValueChange={(value) => setState((state) => ({ ...state, edge: value }))}
         />
         <Control
           label="Pattern Blur"

@@ -10,7 +10,7 @@ uniform float u_ratio;
 uniform float u_img_ratio;
 uniform float u_patternScale;
 uniform float u_refraction;
-uniform float u_edgeBlur;
+uniform float u_edge;
 uniform float u_patternBlur;
 uniform float u_liquid;
 
@@ -139,7 +139,7 @@ void main() {
     float thin_strip_1_width = cycle_width * thin_strip_1_ratio;
     float thin_strip_2_width = cycle_width * thin_strip_2_ratio;
 
-    opacity = 1. - smoothstep(.9 - .5 * u_edgeBlur, 1. - .5 * u_edgeBlur, edge);
+    opacity = 1. - smoothstep(.9 - .5 * u_edge, 1. - .5 * u_edge, edge);
     opacity *= get_img_frame_alpha(img_uv, 0.);
 
 
