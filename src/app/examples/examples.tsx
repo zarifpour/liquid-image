@@ -153,6 +153,13 @@ export function Examples() {
       </div>
 
       <div>
+        <a href="/share/01JMEM94AVB8WCM3C4QWCR3F2Y">
+          <Image src="/examples/t3-logo.svg" alt="T3 Logo" width={imageSize} height={imageSize} />
+          T3
+        </a>
+      </div>
+
+      <div>
         <a href="/share/01JMEGMDP6B7TN1ST00VHFGB4S">
           <Image src="/examples/workos-logo.svg" alt="WorkOS Logo" width={imageSize} height={imageSize} />
           WorkOS
