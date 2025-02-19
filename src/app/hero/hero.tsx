@@ -5,7 +5,9 @@ import { ImageUpload } from './image-upload';
 import { OutputCanvas, ShaderParams } from './output-canvas';
 import { parseLogoImage } from './parse-logo-image';
 import { uploadImage } from './upload-image';
-import { useControls } from 'leva';
+import { useControls, button } from 'leva';
+import { roundOptimized } from '../math/round-optimized';
+import { DEFAULT_VALUES, getInitialParamValues } from './params';
 
 type HeroProps = {
   initialImageId?: string;
@@ -15,14 +17,25 @@ export const Hero = ({ initialImageId }: HeroProps) => {
   const [imageData, setImageData] = useState<ImageData | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
 
-  const params: ShaderParams = useControls({
-    refraction: { value: 0.015, min: 0, max: 0.1, step: 0.001 },
-    edgeBlur: { value: 0.4, min: 0, max: 1, step: 0.01 },
-    patternBlur: { value: 0.005, min: 0, max: 0.1, step: 0.001 },
-    liquid: { value: 0.0, min: 0, max: 1, step: 0.01 },
-    speed: { value: 0.3, min: 0, max: 1, step: 0.01 },
-    patternScale: { value: 2, min: 0, max: 10, step: 0.1 },
-  });
+  // Add slider controls to the page
+  const [params, setParams] = useControls(() => ({
+    // get initial values from querystring or defaults
+    ...getInitialParamValues(new URL(window.location.href)),
+    // reset button
+    reset: button(() => setParams(DEFAULT_VALUES)),
+  }));
+
+  // When params change, put them into the querystring
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('refraction', roundOptimized(params.refraction, 3).toString());
+    url.searchParams.set('edgeBlur', roundOptimized(params.edgeBlur, 3).toString());
+    url.searchParams.set('patternBlur', roundOptimized(params.patternBlur, 3).toString());
+    url.searchParams.set('liquid', roundOptimized(params.liquid, 3).toString());
+    url.searchParams.set('speed', roundOptimized(params.speed, 3).toString());
+    url.searchParams.set('patternScale', roundOptimized(params.patternScale, 3).toString());
+    window.history.pushState({}, '', url.toString());
+  }, [params]);
 
   // Check URL for image ID on mount
   useEffect(() => {

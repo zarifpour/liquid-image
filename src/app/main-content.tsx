@@ -25,10 +25,8 @@ export function MainContent({ initialImageId }: MainContentProps) {
         <p>
           Presets todo: Nike, Apple, Vercel, Supabase, Paper, Discord, Slack, T3, Starbucks (SVG that verekia sent me),
           cloudflare, fly.io if I can separate the balloon, React, Chrome, Radix, base ui, figma, adobe's A, sketch
-          (wireframe one), macrumors, the verge, techcrunch, wired, Framer, WorkOS
+          (wireframe one), macrumors, the verge, techcrunch, wired, Framer, WorkOS, basement
         </p>
-        <p>TODO: have a default shader running when you land (pre-parse the image)</p>
-        <p>TODO: sliders for params (in share URL too)</p>
       </div>
     </div>
   );
