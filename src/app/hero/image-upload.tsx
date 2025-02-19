@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { toast } from 'sonner';
-import { parseLogoImage } from './parse-logo-image';
 
 interface FileUploadProps {
   onFileSelect?: (file: File) => void;

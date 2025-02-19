@@ -20,7 +20,7 @@ const params = {
     step: 0.001,
   },
   liquid: {
-    value: 0.0,
+    value: 0.07,
     min: 0,
     max: 1,
     step: 0.01,

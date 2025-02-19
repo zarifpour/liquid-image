@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ImageUpload } from './image-upload';
 import { OutputCanvas, ShaderParams } from './output-canvas';
 import { parseLogoImage } from './parse-logo-image';
@@ -8,6 +8,7 @@ import { uploadImage } from './upload-image';
 import { getInitialParams } from '../controls/params';
 import { Controls } from '../controls/controls';
 import { useSearchParams } from 'next/navigation';
+import { CopyShareLink } from './copy-share-link';
 
 type HeroProps = {
   initialImageId?: string;
@@ -28,9 +29,15 @@ export const Hero = ({ initialImageId }: HeroProps) => {
     setProcessing(true);
     fetch(`https://p1ljtcp1ptfohfxm.public.blob.vercel-storage.com/${loadImageId}.png`)
       .then((res) => res.blob())
-      .then((blob) => new File([blob], 'logo.png', { type: 'image/png' }))
-      .then((file) => parseLogoImage(file))
-      .then(({ imageData }) => {
+      .then((blob) => createImageBitmap(blob))
+      .then((bitmap) => {
+        // Create a temporary canvas to turn the image back into imageData for the shader
+        const canvas = document.createElement('canvas');
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(bitmap, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         setImageData(imageData);
       })
       .catch(console.error)
@@ -59,15 +66,11 @@ export const Hero = ({ initialImageId }: HeroProps) => {
 
   return (
     <div>
-      <div className="flex items-center justify-center gap-4">
-        {processing && (
-          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/80 p-4">
-            <div className="text-white">loading...</div>
-          </div>
-        )}
-        <ImageUpload onFileSelect={handleUserUpload} />
-        {imageData && <OutputCanvas imageData={imageData} params={params} />}
-      </div>
+      <ImageUpload onFileSelect={handleUserUpload} />
+      {imageData && <OutputCanvas imageData={imageData} params={params} processing={processing} />}
+
+      {/* <CopyShareLink /> */}
+
       <Controls params={params} setParams={setParams} />
     </div>
   );

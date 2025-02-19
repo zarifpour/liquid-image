@@ -14,6 +14,12 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
 
     const img = new Image();
     img.onload = function () {
+      // Force SVG to load at a high fidelity size if it's an SVG
+      if (file.type === 'image/svg+xml') {
+        img.width = 1000; // or whatever base size you prefer
+        img.height = 1000;
+      }
+
       const MAX_SIZE = 1000;
       const MIN_SIZE = 500;
       let width = img.naturalWidth;

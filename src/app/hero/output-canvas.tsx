@@ -1,6 +1,5 @@
 'use client';
 
-import { ShaderMount } from '@paper-design/shaders-react';
 import { liquidFragSource } from './liquid-frag';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -35,7 +34,15 @@ export type ShaderParams = {
   speed: number;
 };
 
-export function OutputCanvas({ imageData, params }: { imageData: ImageData; params: ShaderParams }) {
+export function OutputCanvas({
+  imageData,
+  params,
+  processing,
+}: {
+  imageData: ImageData;
+  params: ShaderParams;
+  processing: boolean;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gl, setGl] = useState<WebGL2RenderingContext | null>(null);
   const [uniforms, setUniforms] = useState<Record<string, WebGLUniformLocation>>({});
@@ -245,8 +252,14 @@ export function OutputCanvas({ imageData, params }: { imageData: ImageData; para
   }, [gl, uniforms, imageData]);
 
   return (
-    <div className="flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1] p-10">
+    <div className="relative flex items-center justify-center rounded-lg bg-gradient-to-t from-[#d1d1d1] to-[#f1f1f1] p-10">
       <canvas ref={canvasRef} className="block max-w-full" />
+
+      {processing && (
+        <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/80 p-4">
+          <div className="text-white">loading...</div>
+        </div>
+      )}
     </div>
   );
 }
