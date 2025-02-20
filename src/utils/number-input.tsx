@@ -1,4 +1,5 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import type React from 'react';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useComposedRefs } from './compose-refs';
 

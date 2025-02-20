@@ -1,8 +1,9 @@
 'use client';
 
-import { liquidFragSource } from '@/app/hero/liquid-frag';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { liquidFragSource } from './liquid-frag';
+import { consoleError } from './utils';
 
 // uniform sampler2D u_image_texture;
 // uniform float u_time;
@@ -37,11 +38,9 @@ export type ShaderParams = {
 export function Canvas({
   imageData,
   params,
-  processing,
 }: {
   imageData: ImageData;
   params: ShaderParams;
-  processing: boolean;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gl, setGl] = useState<WebGL2RenderingContext | null>(null);
@@ -83,7 +82,7 @@ export function Canvas({
         gl.compileShader(shader);
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-          console.error(`An error occurred compiling the shaders: ${gl.getShaderInfoLog(shader)}`);
+          consoleError(`An error occurred compiling the shaders: ${gl.getShaderInfoLog(shader)}`);
           gl.deleteShader(shader);
           return null;
         }
@@ -104,7 +103,7 @@ export function Canvas({
       gl.linkProgram(program);
 
       if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.error(`Unable to initialize the shader program: ${gl.getProgramInfoLog(program)}`);
+        consoleError(`Unable to initialize the shader program: ${gl.getProgramInfoLog(program)}`);
         return null;
       }
 
@@ -239,7 +238,7 @@ export function Canvas({
 
       gl.uniform1i(uniforms.u_image_texture, 0);
     } catch (e) {
-      console.error('Error uploading texture:', e);
+      consoleError('Error uploading texture:', e);
       toast.error('Failed to upload image texture');
     }
 
