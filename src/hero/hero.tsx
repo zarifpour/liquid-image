@@ -1,19 +1,25 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { defaultParams, params, type ShaderParams } from './params';
-import { Canvas } from './canvas';
-import { Slider } from 'radix-ui';
 import { NumberInput } from '@/app/number-input';
 import { roundOptimized } from '@/app/round-optimized';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { toast } from 'sonner';
-import { parseLogoImage } from './parse-logo-image';
 import { uploadImage } from '@/hero/upload-image';
 import isEqual from 'lodash-es/isEqual';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Slider } from 'radix-ui';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
+import { Canvas } from './canvas';
+import { type ShaderParams, defaultParams, params } from './params';
+import { parseLogoImage } from './parse-logo-image';
 
 interface HeroProps {
   imageId: string;
+  refraction?: number;
+  edge?: number;
+  patternBlur?: number;
+  liquid?: number;
+  speed?: number;
+  patternScale?: number;
 }
 
 type State = ShaderParams & {
@@ -22,8 +28,34 @@ type State = ShaderParams & {
 
 const defaultState = { ...defaultParams, background: 'metal' };
 
-export function Hero({ imageId }: HeroProps) {
-  const [state, setState] = useState<State>(defaultState);
+/**
+ * Hero component for the Liquid Logo Generator
+ * @param imageId - The ID of the image to display
+ * @param refraction - Refraction amount `[0, 0.06]`
+ * @param edge - Edge thickness `[0, 1]`
+ * @param patternBlur - Pattern blur amount `[0, 0.05]`
+ * @param liquid - Liquid distortion amount `[0, 1]`
+ * @param speed - Animation speed `[0, 1]`
+ * @param patternScale - Pattern scale `[1, 10]`
+ */
+export function LiquidImage({
+  imageId,
+  refraction = 0.015,
+  edge = 0.4,
+  patternBlur = 0.005,
+  liquid = 0.07,
+  speed = 0.3,
+  patternScale = 2,
+}: HeroProps) {
+  const [state, setState] = useState<State>({
+    ...defaultState,
+    refraction,
+    edge,
+    patternBlur,
+    liquid,
+    speed,
+    patternScale,
+  });
   const [dragging, setDragging] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -59,7 +91,7 @@ export function Hero({ imageId }: HeroProps) {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         setImageData(imageData);
       } catch (error) {
-        console.error(error);
+        console.error('💧 LiquidImage: Failed to load image.', error);
       }
 
       setProcessing(false);
@@ -141,7 +173,7 @@ export function Hero({ imageId }: HeroProps) {
     }
 
     if (isEqual === false) {
-      console.log('Updating state from URL params');
+      console.log('💧 LiquidImage: Updating state from URL params');
       setState((state) => ({ ...state, ...paramsState }));
     }
   }, [searchParams]);
@@ -182,7 +214,9 @@ export function Hero({ imageId }: HeroProps) {
                 router.push(`/share/${imageId}`, { scroll: false });
               }
             })
-            .catch(console.error)
+            .catch((error) => {
+              console.error('💧 LiquidImage: Failed to upload image.', error);
+            })
             .finally(() => setProcessing(false));
         });
       } else {
@@ -374,6 +408,10 @@ interface ControlProps {
 }
 
 function Control({ label, min, max, step, format, value, onValueChange }: ControlProps) {
+  if (value < min || value > max) {
+    console.error(`💧 LiquidImage: "${label}" value (${value}) is outside allowed range [${min}, ${max}]`);
+  }
+
   return (
     <>
       <div>
