@@ -51,7 +51,10 @@ export function Hero({ imageId }: HeroProps) {
         const canvas = document.createElement('canvas');
         canvas.width = bitmap.width;
         canvas.height = bitmap.height;
-        const ctx = canvas.getContext('2d')!;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          throw new Error('Failed to create canvas context');
+        }
         ctx.drawImage(bitmap, 0, 0);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         setImageData(imageData);
@@ -76,16 +79,16 @@ export function Hero({ imageId }: HeroProps) {
     function updateSearchParams() {
       const searchParams = new URLSearchParams();
 
-      Object.entries(stateRef.current).forEach(([key, value]) => {
+      for (const [key, value] of Object.entries(stateRef.current)) {
         if (typeof value === 'number') {
           searchParams.set(key, roundOptimized(value, 4).toString());
         } else {
           searchParams.set(key, value);
         }
-      });
+      }
 
       searchParamsPendingUpdate.current = false;
-      router.replace(pathname + '?' + searchParams.toString(), { scroll: false });
+      router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
     }
 
     // Update with a debounce (neither Next.js router nor Safari like frequent URL updates)
@@ -114,7 +117,7 @@ export function Hero({ imageId }: HeroProps) {
       return;
     }
 
-    const paramsState: any = {};
+    const paramsState: Record<string, number | string> = {};
     let isEqual = true;
 
     for (const [key, value] of searchParams.entries()) {
@@ -122,7 +125,7 @@ export function Hero({ imageId }: HeroProps) {
         continue;
       }
 
-      const number = parseFloat(value);
+      const number = Number.parseFloat(value);
       paramsState[key] = Number.isNaN(number) ? value : number;
 
       // @ts-ignore
@@ -232,10 +235,13 @@ export function Hero({ imageId }: HeroProps) {
 
       <div className="grid grid-cols-[auto_160px_100px] items-center gap-x-24 gap-y-12 rounded-8 p-16 outline outline-white/20">
         <div>
-          <label className="pr-16 text-nowrap">Background</label>
+          <label className="pr-16 text-nowrap" htmlFor="background">
+            Background
+          </label>
         </div>
         <div className="col-span-2 flex h-40 items-center gap-9">
           <button
+            type="button"
             className="size-28 cursor-pointer rounded-full text-[0px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
             style={{ background: 'linear-gradient(to bottom, #eee, #b8b8b8)' }}
             onClick={() => setState({ ...state, background: 'metal' })}
@@ -244,6 +250,7 @@ export function Hero({ imageId }: HeroProps) {
           </button>
 
           <button
+            type="button"
             className="size-28 cursor-pointer rounded-full bg-white text-[0px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
             onClick={() => setState({ ...state, background: 'white' })}
           >
@@ -251,6 +258,7 @@ export function Hero({ imageId }: HeroProps) {
           </button>
 
           <button
+            type="button"
             className="size-28 cursor-pointer rounded-full bg-black text-[0px] outline outline-white/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
             onClick={() => setState({ ...state, background: 'black' })}
           >
@@ -333,7 +341,7 @@ export function Hero({ imageId }: HeroProps) {
           min={params.patternScale.min}
           max={params.patternScale.max}
           step={params.patternScale.step}
-          format={(value) => (value === '0' || value === '10' ? value : parseFloat(value).toFixed(1))}
+          format={(value) => (value === '0' || value === '10' ? value : Number.parseFloat(value).toFixed(1))}
           onValueChange={(value) => setState((state) => ({ ...state, patternScale: value }))}
         />
 
@@ -395,7 +403,7 @@ function Control({ label, min, max, step, format, value, onValueChange }: Contro
           format={format}
           className="h-40 w-full rounded-4 bg-white/15 pl-12 text-sm tabular-nums outline-white/20 focus:outline-2 focus:-outline-offset-1 focus:outline-blue"
           value={value.toString()}
-          onValueCommit={(value) => onValueChange(parseFloat(value))}
+          onValueCommit={(value) => onValueChange(Number.parseFloat(value))}
         />
       </div>
     </>

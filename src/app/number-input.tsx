@@ -13,11 +13,11 @@ interface NumberInputProps extends React.ComponentProps<typeof Input> {
 
 export const NumberInput = ({
   integer = false,
-  min = -Infinity,
-  max = Infinity,
+  min = Number.NEGATIVE_INFINITY,
+  max = Number.POSITIVE_INFINITY,
   increments = [1, 10],
   format = (value) => {
-    const float = parseFloat(value);
+    const float = Number.parseFloat(value);
     return Number.isInteger(float) ? value : float.toFixed(3);
   },
   ...props
@@ -38,7 +38,7 @@ export const NumberInput = ({
           event.preventDefault();
           const direction = event.key === 'ArrowUp' ? 1 : -1;
           const [smallIncrement, largeIncrement] = increments;
-          let amount = event.shiftKey ? largeIncrement : smallIncrement;
+          const amount = event.shiftKey ? largeIncrement : smallIncrement;
 
           const defaultNumber = Math.max(min, Math.min(0, max));
           const value = ref.current.value;
@@ -48,7 +48,7 @@ export const NumberInput = ({
           let newValue = defaultValue;
 
           if (value !== null) {
-            number = integer ? parseInt(value) : parseFloat(value);
+            number = integer ? Number.parseInt(value) : Number.parseFloat(value);
           }
 
           if (!Number.isNaN(number)) {
@@ -97,7 +97,7 @@ export interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
   parse?: (value: string) => string | null;
 
   /**
-   * A function used to customise how input contents are selected when clicking into the input.
+   * A function used to customize how input contents are selected when clicking into the input.
    * Defaults to `(input) => input?.select()`
    */
   select?: (input: HTMLInputElement | null) => void;
@@ -134,11 +134,11 @@ export function Input({ onValueCommit, format = defaultFormatter, parse = defaul
 
   useImperativeHandle<InputHandle | null, InputHandle | null>(
     props.ref,
-    function () {
+    () => {
       if (input) {
         return Object.assign(input, {
           setValue,
-          commitValue: function (value: string) {
+          commitValue: (value: string) => {
             commitValueRef.current(value);
           },
         });

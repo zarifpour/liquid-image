@@ -83,7 +83,7 @@ export function Canvas({
         gl.compileShader(shader);
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-          console.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+          console.error(`An error occurred compiling the shaders: ${gl.getShaderInfoLog(shader)}`);
           gl.deleteShader(shader);
           return null;
         }
@@ -104,15 +104,15 @@ export function Canvas({
       gl.linkProgram(program);
 
       if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(program));
+        console.error(`Unable to initialize the shader program: ${gl.getProgramInfoLog(program)}`);
         return null;
       }
 
       function getUniforms(program: WebGLProgram, gl: WebGL2RenderingContext) {
-        let uniforms: Record<string, WebGLUniformLocation> = {};
-        let uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+        const uniforms: Record<string, WebGLUniformLocation> = {};
+        const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
         for (let i = 0; i < uniformCount; i++) {
-          let uniformName = gl.getActiveUniform(program, i)?.name;
+          const uniformName = gl.getActiveUniform(program, i)?.name;
           if (!uniformName) continue;
           uniforms[uniformName] = gl.getUniformLocation(program, uniformName) as WebGLUniformLocation;
         }

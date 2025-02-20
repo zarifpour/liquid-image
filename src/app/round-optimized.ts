@@ -22,7 +22,7 @@ const precisionMultipliers = [1, 10, 100, 1000, 10000, 100000, 1000000] as const
 export function roundOptimized(num: number, precision: 0 | 1 | 2 | 3 | 4 | 5 | 6 = 2): number {
   // Shift decimal point to the right by multiplying
   // This lets us work with the decimals we care about as whole numbers
-  const multiplier = precisionMultipliers[precision]!;
+  const multiplier = precisionMultipliers[precision];
   const shifted = num * multiplier;
 
   // Add or subtract 0.5 before truncating based on sign

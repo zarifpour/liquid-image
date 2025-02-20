@@ -13,7 +13,7 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
     }
 
     const img = new Image();
-    img.onload = function () {
+    img.onload = () => {
       // Force SVG to load at a high fidelity size if it's an SVG
       if (file.type === 'image/svg+xml') {
         img.width = 1000; // or whatever base size you prefer
@@ -53,7 +53,11 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
       const shapeCanvas = document.createElement('canvas');
       shapeCanvas.width = width;
       shapeCanvas.height = height;
-      const shapeCtx = shapeCanvas.getContext('2d')!;
+      const shapeCtx = shapeCanvas.getContext('2d');
+      if (!shapeCtx) {
+        reject(new Error('Failed to create shape context'));
+        return;
+      }
       shapeCtx.drawImage(img, 0, 0, width, height);
 
       // 1) Build the inside/outside mask:
@@ -62,13 +66,13 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
       const shapeImageData = shapeCtx.getImageData(0, 0, width, height);
       const data = shapeImageData.data;
       const shapeMask = new Array(width * height).fill(false);
-      for (var y = 0; y < height; y++) {
-        for (var x = 0; x < width; x++) {
-          var idx4 = (y * width + x) * 4;
-          var r = data[idx4];
-          var g = data[idx4 + 1];
-          var b = data[idx4 + 2];
-          var a = data[idx4 + 3];
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const idx4 = (y * width + x) * 4;
+          const r = data[idx4];
+          const g = data[idx4 + 1];
+          const b = data[idx4 + 2];
+          const a = data[idx4 + 3];
           if ((r === 255 && g === 255 && b === 255 && a === 255) || a === 0) {
             shapeMask[y * width + x] = false;
           } else {
@@ -83,14 +87,14 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
       }
 
       // 2) Identify boundary (pixels that have at least one non-shape neighbor)
-      var boundaryMask = new Array(width * height).fill(false);
-      for (var y = 0; y < height; y++) {
-        for (var x = 0; x < width; x++) {
-          var idx = y * width + x;
+      const boundaryMask = new Array(width * height).fill(false);
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const idx = y * width + x;
           if (!shapeMask[idx]) continue;
-          var isBoundary = false;
-          for (var ny = y - 1; ny <= y + 1 && !isBoundary; ny++) {
-            for (var nx = x - 1; nx <= x + 1 && !isBoundary; nx++) {
+          let isBoundary = false;
+          for (let ny = y - 1; ny <= y + 1 && !isBoundary; ny++) {
+            for (let nx = x - 1; nx <= x + 1 && !isBoundary; nx++) {
               if (!inside(nx, ny)) {
                 isBoundary = true;
               }
@@ -103,10 +107,10 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
       }
 
       // 3) Poisson solve: Δu = -C (i.e. u_xx + u_yy = C), with u=0 at the boundary.
-      var u = new Float32Array(width * height).fill(0);
-      var newU = new Float32Array(width * height).fill(0);
-      var C = 0.01;
-      var ITERATIONS = 300;
+      const u = new Float32Array(width * height).fill(0);
+      const newU = new Float32Array(width * height).fill(0);
+      const C = 0.01;
+      const ITERATIONS = 300;
 
       function getU(x: number, y: number, arr: Float32Array) {
         if (x < 0 || x >= width || y < 0 || y >= height) return 0;
@@ -116,34 +120,34 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
 
       for (var iter = 0; iter < ITERATIONS; iter++) {
         for (var y = 0; y < height; y++) {
-          for (var x = 0; x < width; x++) {
-            var idx = y * width + x;
+          for (let x = 0; x < width; x++) {
+            const idx = y * width + x;
             if (!shapeMask[idx] || boundaryMask[idx]) {
               newU[idx] = 0;
               continue;
             }
-            var sumN = getU(x + 1, y, u) + getU(x - 1, y, u) + getU(x, y + 1, u) + getU(x, y - 1, u);
+            const sumN = getU(x + 1, y, u) + getU(x - 1, y, u) + getU(x, y + 1, u) + getU(x, y - 1, u);
             newU[idx] = (C + sumN) / 4;
           }
         }
         // Swap u with newU
-        for (var i = 0; i < width * height; i++) {
+        for (let i = 0; i < width * height; i++) {
           u[i] = newU[i];
         }
       }
 
       // 4) Normalize the solution and apply a nonlinear remap.
-      var maxVal = 0;
-      for (var i = 0; i < width * height; i++) {
+      let maxVal = 0;
+      for (let i = 0; i < width * height; i++) {
         if (u[i] > maxVal) maxVal = u[i];
       }
       const alpha = 2.0; // Adjust for contrast.
       const outImg = ctx.createImageData(width, height);
 
-      for (var y = 0; y < height; y++) {
-        for (var x = 0; x < width; x++) {
-          var idx = y * width + x;
-          var px = idx * 4;
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const idx = y * width + x;
+          const px = idx * 4;
           if (!shapeMask[idx]) {
             outImg.data[px] = 255;
             outImg.data[px + 1] = 255;
@@ -151,7 +155,7 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
             outImg.data[px + 3] = 255;
           } else {
             const raw = u[idx] / maxVal;
-            const remapped = Math.pow(raw, alpha);
+            const remapped = raw ** alpha;
             const gray = 255 * (1 - remapped);
             outImg.data[px] = gray;
             outImg.data[px + 1] = gray;

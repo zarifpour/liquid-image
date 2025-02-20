@@ -3,7 +3,7 @@ import './styles.css';
 
 export default function Layout({ children }: React.PropsWithChildren) {
   return (
-    <html>
+    <html lang="en">
       <head>
         <title>Liquid Metal • Paper</title>
       </head>
