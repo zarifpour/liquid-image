@@ -1,8 +1,8 @@
 'use client';
 
 import { type ShaderParams, params } from '@/hero/params';
-import { consoleError } from '@/hero/utils';
 import { NumberInput } from '@/utils/number-input';
+import { consoleError } from '@/utils/utils';
 import { Slider } from 'radix-ui';
 
 type State = ShaderParams & {
@@ -12,21 +12,38 @@ type State = ShaderParams & {
 interface LiquidImageControlsProps {
   state: State;
   setState: React.Dispatch<React.SetStateAction<State>>;
-  onFileInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function LiquidImageControls({ state, setState, onFileInput }: LiquidImageControlsProps) {
+export function LiquidImageControls({ state, setState }: LiquidImageControlsProps) {
   return (
-    <div className="grid grid-cols-[auto_160px_100px] items-center gap-x-24 gap-y-12 rounded-8 p-16 outline outline-white/20">
+    <div className="rounded-8 grid grid-cols-[auto_160px_100px] items-center gap-x-24 gap-y-12 p-16 outline outline-white/20">
       <div>
-        <label className="pr-16 text-nowrap" htmlFor="background">
+        <label className="text-nowrap pr-16" htmlFor="background">
           Background
         </label>
       </div>
       <div className="col-span-2 flex h-40 items-center gap-9">
         <button
           type="button"
-          className="size-28 cursor-pointer rounded-full text-[0px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+          className="focus-visible:outline-focus relative size-28 cursor-pointer rounded-full text-[0px] outline outline-white/30 focus-visible:outline-2 focus-visible:outline-offset-2"
+          style={{ background: 'transparent' }}
+          onClick={() => setState({ ...state, background: 'transparent' })}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="absolute inset-0 m-auto size-16 text-red-500"
+            stroke="red"
+            strokeWidth="2"
+            fill="none"
+          >
+            <title>Transparent</title>
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+          <span className="sr-only">Transparent</span>
+        </button>
+        <button
+          type="button"
+          className="focus-visible:outline-focus size-28 cursor-pointer rounded-full text-[0px] focus-visible:outline-2 focus-visible:outline-offset-2"
           style={{ background: 'linear-gradient(to bottom, #eee, #b8b8b8)' }}
           onClick={() => setState({ ...state, background: 'metal' })}
         >
@@ -35,7 +52,7 @@ export function LiquidImageControls({ state, setState, onFileInput }: LiquidImag
 
         <button
           type="button"
-          className="size-28 cursor-pointer rounded-full bg-white text-[0px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+          className="focus-visible:outline-focus size-28 cursor-pointer rounded-full bg-white text-[0px] focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={() => setState({ ...state, background: 'white' })}
         >
           White
@@ -43,14 +60,14 @@ export function LiquidImageControls({ state, setState, onFileInput }: LiquidImag
 
         <button
           type="button"
-          className="size-28 cursor-pointer rounded-full bg-black text-[0px] outline outline-white/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+          className="focus-visible:outline-focus size-28 cursor-pointer rounded-full bg-black text-[0px] outline outline-white/30 focus-visible:outline-2 focus-visible:outline-offset-2"
           onClick={() => setState({ ...state, background: 'black' })}
         >
           Black
         </button>
 
         <label
-          className="size-28 cursor-pointer rounded-full text-[0px] focus-within:cursor-default [&:has(:focus-visible)]:outline-2 [&:has(:focus-visible)]:outline-offset-2 [&:has(:focus-visible)]:outline-focus"
+          className="[&:has(:focus-visible)]:outline-focus size-28 cursor-pointer rounded-full text-[0px] focus-within:cursor-default [&:has(:focus-visible)]:outline-2 [&:has(:focus-visible)]:outline-offset-2"
           style={{
             background: `
               radial-gradient(circle, white, transparent 65%),
@@ -128,20 +145,6 @@ export function LiquidImageControls({ state, setState, onFileInput }: LiquidImag
         format={(value) => (value === '0' || value === '10' ? value : Number.parseFloat(value).toFixed(1))}
         onValueChange={(value) => setState((state) => ({ ...state, patternScale: value }))}
       />
-
-      <div className="col-span-3 mt-12">
-        <label
-          htmlFor="file-input"
-          className="mb-16 flex h-40 cursor-pointer items-center justify-center rounded-4 bg-button font-medium select-none"
-        >
-          <input type="file" accept="image/*,.svg" onChange={onFileInput} id="file-input" className="hidden" />
-          Upload image
-        </label>
-        <p className="w-fill text-sm text-white/80">
-          Tips: transparent or white background is required. Shapes work better than words. Use an SVG or a
-          high-resolution image.
-        </p>
-      </div>
     </div>
   );
 }
@@ -164,18 +167,18 @@ function Control({ label, min, max, step, format, value, onValueChange }: Contro
   return (
     <>
       <div>
-        <label className="pr-16 text-nowrap" htmlFor={label}>
+        <label className="text-nowrap pr-16" htmlFor={label}>
           {label}
         </label>
       </div>
       <div>
         <Slider.Root min={min} max={max} step={step} value={[value]} onValueChange={([value]) => onValueChange(value)}>
-          <Slider.Track className="relative flex h-32 w-full touch-none items-center rounded-full select-none">
+          <Slider.Track className="relative flex h-32 w-full touch-none select-none items-center rounded-full">
             <span inert className="absolute inset-x-0 h-6 rounded-full bg-white/20" />
-            <Slider.Range className="absolute h-6 rounded-full bg-blue select-none" />
+            <Slider.Range className="bg-blue absolute h-6 select-none rounded-full" />
             <Slider.Thumb
               tabIndex={-1}
-              className="block size-16 rounded-full bg-white outline-focus select-none focus-visible:outline-2"
+              className="outline-focus block size-16 select-none rounded-full bg-white focus-visible:outline-2"
               style={{ boxShadow: '0 2px 6px -2px black' }}
             />
           </Slider.Track>
@@ -188,7 +191,7 @@ function Control({ label, min, max, step, format, value, onValueChange }: Contro
           max={max}
           increments={[step, step * 10]}
           format={format}
-          className="h-40 w-full rounded-4 bg-white/15 pl-12 text-sm tabular-nums outline-white/20 focus:outline-2 focus:-outline-offset-1 focus:outline-blue"
+          className="rounded-4 focus:outline-blue h-40 w-full bg-white/15 pl-12 text-sm tabular-nums outline-white/20 focus:outline-2 focus:-outline-offset-1"
           value={value.toString()}
           onValueCommit={(value) => onValueChange(Number.parseFloat(value))}
         />

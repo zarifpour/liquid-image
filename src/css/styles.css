@@ -9,13 +9,8 @@
 @theme {
   --*: initial;
 
-  --breakpoint-sm: 600px;
-  --breakpoint-md: 1200px;
-
   --spacing: 1px;
-  --default-font-family: Matter, sans-serif;
 
-  --color-black: #000;
   --color-white: #fff;
   --color-transparent: #0000;
   --color-currentcolor: currentcolor;

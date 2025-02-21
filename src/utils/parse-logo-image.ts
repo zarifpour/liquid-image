@@ -1,7 +1,5 @@
 'use client';
 
-import { msg } from './utils';
-
 /** Cleans up the input image by turning it into a black and white mask with a beveled edge */
 
 export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngBlob: Blob }> {
@@ -10,7 +8,7 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
 
   return new Promise((resolve, reject) => {
     if (!file || !ctx) {
-      reject(new Error(msg('Invalid file or context')));
+      reject(new Error('Invalid file or context'));
       return;
     }
 
@@ -57,7 +55,7 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
       shapeCanvas.height = height;
       const shapeCtx = shapeCanvas.getContext('2d');
       if (!shapeCtx) {
-        reject(new Error(msg('Failed to create shape context')));
+        reject(new Error('Failed to create shape context'));
         return;
       }
       shapeCtx.drawImage(img, 0, 0, width, height);
@@ -169,7 +167,7 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
       ctx.putImageData(outImg, 0, 0);
       canvas.toBlob((blob) => {
         if (!blob) {
-          reject(new Error(msg('Failed to create PNG blob')));
+          reject(new Error('Failed to create PNG blob'));
           return;
         }
         resolve({
@@ -179,7 +177,7 @@ export function parseLogoImage(file: File): Promise<{ imageData: ImageData; pngB
       }, 'image/png');
     };
 
-    img.onerror = () => reject(new Error(msg('Failed to load image')));
+    img.onerror = () => reject(new Error('Failed to load image'));
     img.src = URL.createObjectURL(file);
   });
 }

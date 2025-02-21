@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { consoleError } from '../utils/utils';
 import { liquidFragSource } from './liquid-frag';
-import { consoleError } from './utils';
 
 // uniform sampler2D u_image_texture;
 // uniform float u_time;
@@ -146,7 +146,7 @@ export function Canvas({
     if (!gl || !uniforms) return;
 
     updateUniforms();
-  }, [gl, params, uniforms]);
+  }, [gl, uniforms, params]);
 
   // Render every frame
   useEffect(() => {
@@ -160,9 +160,9 @@ export function Canvas({
 
       // Update the total animation time and time uniform
       totalAnimationTime.current += deltaTime * params.speed;
-      gl!.uniform1f(uniforms.u_time, totalAnimationTime.current);
+      gl?.uniform1f(uniforms.u_time, totalAnimationTime.current);
       // Draw!
-      gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+      gl?.drawArrays(gl?.TRIANGLE_STRIP, 0, 4);
       // rAF
       renderId = requestAnimationFrame(render);
     }
@@ -174,7 +174,7 @@ export function Canvas({
     return () => {
       cancelAnimationFrame(renderId);
     };
-  }, [gl, params.speed]);
+  }, [gl, uniforms, params.speed]);
 
   useEffect(() => {
     const canvasEl = canvasRef.current;
