@@ -6,8 +6,16 @@ import { Suspense } from 'react';
 export default function Home() {
   return (
     <>
-      <div className="flex min-h-dvh flex-col items-center justify-center">
-        <div className="pb-80">
+      <div
+        style={{
+          display: 'flex',
+          minHeight: '100dvh',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={{ paddingBottom: '80px' }}>
           <Suspense>
             <LiquidImage
               src="/apple-touch-icon.png"

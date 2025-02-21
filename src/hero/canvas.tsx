@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { toast } from 'sonner';
 import { consoleError } from '../utils/utils';
 import { liquidFragSource } from './liquid-frag';
 
@@ -67,14 +66,14 @@ export function Canvas({
         alpha: true,
       });
       if (!canvas || !gl) {
-        toast.error('Failed to initialize shader. Does your browser support WebGL2?');
+        consoleError('Failed to initialize shader. Does your browser support WebGL2?');
         return;
       }
 
       function createShader(gl: WebGL2RenderingContext, sourceCode: string, type: number) {
         const shader = gl.createShader(type);
         if (!shader) {
-          toast.error('Failed to create shader');
+          consoleError('Failed to create shader');
           return null;
         }
 
@@ -94,7 +93,7 @@ export function Canvas({
       const fragmentShader = createShader(gl, liquidFragSource, gl.FRAGMENT_SHADER);
       const program = gl.createProgram();
       if (!program || !vertexShader || !fragmentShader) {
-        toast.error('Failed to create program or shaders');
+        consoleError('Failed to create program or shaders');
         return;
       }
 
@@ -239,7 +238,6 @@ export function Canvas({
       gl.uniform1i(uniforms.u_image_texture, 0);
     } catch (e) {
       consoleError('Error uploading texture:', e);
-      toast.error('Failed to upload image texture');
     }
 
     return () => {
@@ -250,5 +248,5 @@ export function Canvas({
     };
   }, [gl, uniforms, imageData]);
 
-  return <canvas ref={canvasRef} className="block h-full w-full object-contain" />;
+  return <canvas ref={canvasRef} style={{ display: 'block', height: '100%', width: '100%', objectFit: 'contain' }} />;
 }

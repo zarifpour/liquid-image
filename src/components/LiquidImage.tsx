@@ -129,8 +129,8 @@ export function LiquidImage({
       <div
         className={className}
         style={{
-          width: width || bitmap?.width || img?.width,
-          height: height || bitmap?.height || img?.height,
+          width: width || bitmap?.width || img?.width || 400,
+          height: height || bitmap?.height || img?.height || 400,
           aspectRatio: 'auto',
         }}
       >
