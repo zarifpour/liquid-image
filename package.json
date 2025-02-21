@@ -1,19 +1,28 @@
 {
-  "name": "liquid-logo",
+  "name": "liquid-image",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "src/index.tsx",
+  "types": "src/index.tsx",
+  "files": [
+    "src/components",
+    "src/utils",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "radix-ui": "1.1.3",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "lint": "bunx @biomejs/biome lint --write ./src",
+    "check": "bunx @biomejs/biome check --write ./src",
+    "format": "bunx @biomejs/biome format --write ./src"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "typescript": "^5"

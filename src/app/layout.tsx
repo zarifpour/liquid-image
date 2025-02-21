@@ -1,18 +1,39 @@
-import type { Viewport } from 'next/types';
-import '@/css/styles.css';
+'use client'
 
-export default function Layout({ children }: React.PropsWithChildren) {
+import { LiquidImage } from '../components/LiquidImage'
+import type { Viewport } from 'next/types'
+import { Suspense } from 'react'
+
+export default function Home() {
   return (
     <html lang="en">
       <head>
-        <title>Liquid Metal • Paper</title>
+        <title>Liquid Metal • Zarifpour</title>
+        <meta name="description" content="Transform your logo into liquid metal" />
       </head>
-      <body>{children}</body>
+      <body>
+        <div
+          style={{
+            display: 'flex',
+            minHeight: '100dvh',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <div style={{ paddingBottom: '80px' }}>
+            <Suspense>
+              <LiquidImage src="/logos/apple.png" height={200} width={200} />
+              <LiquidImage src="/logos/apple.png" height={200} width={200} invert showControls />
+            </Suspense>
+          </div>
+        </div>
+      </body>
     </html>
-  );
+  )
 }
 
 export const viewport: Viewport = {
   width: 'device-width',
-  themeColor: '#000',
-};
+  themeColor: '#000'
+}

@@ -140,9 +140,10 @@ void main() {
     float thin_strip_2_width = cycle_width * thin_strip_2_ratio;
 
     opacity = 1. - smoothstep(.9 - .5 * u_edge, 1. - .5 * u_edge, edge);
-    opacity *= get_img_frame_alpha(img_uv, 1e-4);
+    opacity *= get_img_frame_alpha(img_uv, 0.01);
 
-    float noise = snoise(vUv - t + vec2(.0001));
+
+    float noise = snoise(uv - t);
 
     edge += (1. - edge) * u_liquid * noise;
 
@@ -199,4 +200,4 @@ void main() {
 
     fragColor = vec4(color, opacity);
 }
-`;
+`

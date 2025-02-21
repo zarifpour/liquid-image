@@ -1,54 +1,66 @@
-'use client';
-
-import { type ShaderParams, params } from '@/hero/params';
-import { NumberInput } from '@/utils/number-input';
-import { consoleError } from '@/utils/utils';
-import { Slider } from 'radix-ui';
+import { consoleError } from '../utils/logger'
+import { NumberInput } from '../utils/number-input'
+import { type ShaderParams, params } from '../utils/params'
 
 type State = ShaderParams & {
-  background: string;
-};
+  background: string
+  invert: boolean
+}
 
 interface LiquidImageControlsProps {
-  state: State;
-  setState: React.Dispatch<React.SetStateAction<State>>;
+  state: State
+  setState: React.Dispatch<React.SetStateAction<State>>
 }
 
 export function LiquidImageControls({ state, setState }: LiquidImageControlsProps) {
   return (
     <div
       style={{
-        borderRadius: '8px',
+        borderRadius: '12px',
         display: 'grid',
-        gridTemplateColumns: 'auto 160px 100px',
+        gridTemplateColumns: 'auto 120px auto',
         alignItems: 'center',
-        gap: '24px 12px',
+        gap: '12px',
         padding: '16px',
-        outline: '1px solid rgba(255, 255, 255, 0.2)',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        backdropFilter: 'blur(10px)',
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        backdropFilter: 'blur(12px)',
+        color: 'white',
+        fontFamily: 'system-ui, sans-serif',
+        width: 'fit-content'
       }}
     >
       <div>
-        <label style={{ whiteSpace: 'nowrap', paddingRight: '16px', color: 'var(--color-white)' }} htmlFor="background">
+        <label style={{ fontSize: '13px', fontWeight: 500 }} htmlFor="background">
           Background
         </label>
       </div>
-      <div style={{ gridColumn: 'span 2', display: 'flex', height: '40px', alignItems: 'center', gap: '9px' }}>
+      <div
+        style={{
+          gridColumn: 'span 2',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}
+      >
         <button
           type="button"
           style={{
             position: 'relative',
-            width: '28px',
-            height: '28px',
+            width: '24px',
+            height: '24px',
             cursor: 'pointer',
             borderRadius: '9999px',
             fontSize: '0px',
-            outline: '1px solid rgba(255, 255, 255, 0.3)',
+            border: '2px solid rgba(255, 255, 255, 0.15)',
             background: 'transparent',
-            transition: 'all 0.2s ease',
+            transition: 'all 0.2s ease'
           }}
-          onClick={() => setState({ ...state, background: 'transparent' })}
+          onClick={() =>
+            setState((prevState) => ({
+              ...prevState,
+              background: 'transparent'
+            }))
+          }
         >
           <svg
             viewBox="0 0 24 24"
@@ -56,114 +68,155 @@ export function LiquidImageControls({ state, setState }: LiquidImageControlsProp
               position: 'absolute',
               inset: '0',
               margin: 'auto',
-              width: '16px',
-              height: '16px',
-              color: 'red',
+              width: '12px',
+              height: '12px',
+              color: 'white'
             }}
-            stroke="red"
+            stroke="currentColor"
             strokeWidth="2"
             fill="none"
           >
             <title>Transparent</title>
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
-          <span
+        </button>
+        {['metal', 'white', 'black'].map((color) => (
+          <button
+            key={color}
+            type="button"
             style={{
-              position: 'absolute',
-              width: '1px',
-              height: '1px',
-              padding: '0',
-              margin: '-1px',
-              overflow: 'hidden',
-              clip: 'rect(0, 0, 0, 0)',
-              whiteSpace: 'nowrap',
-              borderWidth: '0',
+              width: '24px',
+              height: '24px',
+              cursor: 'pointer',
+              borderRadius: '9999px',
+              fontSize: '0px',
+              border: '2px solid rgba(255, 255, 255, 0.15)',
+              background: color === 'metal' ? 'linear-gradient(to bottom, #eee, #b8b8b8)' : color,
+              transition: 'all 0.2s ease'
             }}
+            onClick={() => setState((prevState) => ({ ...prevState, background: color }))}
           >
-            Transparent
-          </span>
-        </button>
-        <button
-          type="button"
-          style={{
-            width: '28px',
-            height: '28px',
-            cursor: 'pointer',
-            borderRadius: '9999px',
-            fontSize: '0px',
-            background: 'linear-gradient(to bottom, #eee, #b8b8b8)',
-            transition: 'all 0.2s ease',
-          }}
-          onClick={() => setState({ ...state, background: 'metal' })}
-        >
-          Metal
-        </button>
-
-        <button
-          type="button"
-          style={{
-            width: '28px',
-            height: '28px',
-            cursor: 'pointer',
-            borderRadius: '9999px',
-            fontSize: '0px',
-            background: 'white',
-            transition: 'all 0.2s ease',
-          }}
-          onClick={() => setState({ ...state, background: 'white' })}
-        >
-          White
-        </button>
-
-        <button
-          type="button"
-          style={{
-            width: '28px',
-            height: '28px',
-            cursor: 'pointer',
-            borderRadius: '9999px',
-            fontSize: '0px',
-            background: 'black',
-            outline: '1px solid rgba(255, 255, 255, 0.3)',
-            transition: 'all 0.2s ease',
-          }}
-          onClick={() => setState({ ...state, background: 'black' })}
-        >
-          Black
-        </button>
-
+            {color}
+          </button>
+        ))}
         <label
           style={{
-            width: '28px',
-            height: '28px',
+            width: '24px',
+            height: '24px',
             cursor: 'pointer',
             borderRadius: '9999px',
             fontSize: '0px',
+            border: '2px solid white',
             background: `
-              radial-gradient(circle, white, transparent 65%),
               conic-gradient(
-                in oklch,
-                oklch(63.2% 0.254 30),
-                oklch(79% 0.171 70),
-                oklch(96.7% 0.211 110),
-                oklch(87.4% 0.241 150),
-                oklch(90.2% 0.156 190),
-                oklch(76.2% 0.152 230),
-                oklch(46.5% 0.305 270),
-                oklch(59.5% 0.301 310),
-                oklch(65.9% 0.275 350),
-                oklch(63.2% 0.254 30)
+                from 90deg,
+                hsl(0 100% 50%),
+                hsl(30 100% 50%),
+                hsl(60 100% 50%),
+                hsl(90 100% 50%),
+                hsl(120 100% 50%),
+                hsl(150 100% 50%),
+                hsl(180 100% 50%),
+                hsl(210 100% 50%),
+                hsl(240 100% 50%),
+                hsl(270 100% 50%),
+                hsl(300 100% 50%),
+                hsl(330 100% 50%),
+                hsl(360 100% 50%)
               )
             `,
-            transition: 'all 0.2s ease',
+            position: 'relative',
+            transition: 'all 0.2s ease'
           }}
         >
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              borderRadius: '9999px',
+              background: 'radial-gradient(circle at 50% 30%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%)'
+            }}
+          />
           <input
             style={{ width: '0', height: '0', opacity: 0 }}
             type="color"
-            onChange={(event) => setState({ ...state, background: event.currentTarget.value })}
+            onChange={(event) =>
+              setState((prevState) => ({
+                ...prevState,
+                background: event.currentTarget.value
+              }))
+            }
           />
           Custom
+        </label>
+      </div>
+
+      <div>
+        <label style={{ fontSize: '13px', fontWeight: 500 }} htmlFor="invert">
+          Invert
+        </label>
+      </div>
+      <div
+        style={{
+          gridColumn: 'span 2',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}
+      >
+        <label
+          style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            cursor: 'pointer'
+          }}
+        >
+          <input
+            type="checkbox"
+            id="invert"
+            checked={state.invert}
+            onChange={(e) =>
+              setState((prevState) => ({
+                ...prevState,
+                invert: e.target.checked
+              }))
+            }
+            style={{
+              appearance: 'none',
+              width: '24px',
+              height: '24px',
+              borderRadius: '4px',
+              border: '2px solid rgba(255, 255, 255, 0.15)',
+              background: state.invert ? 'rgba(93, 188, 255, 0.8)' : 'transparent',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              margin: 0,
+              padding: 0,
+              display: 'grid',
+              placeContent: 'center'
+            }}
+          />
+          <svg
+            viewBox="0 0 24 24"
+            style={{
+              position: 'absolute',
+              left: '6px',
+              width: '12px',
+              height: '12px',
+              color: 'white',
+              opacity: state.invert ? 1 : 0,
+              transition: 'opacity 0.2s ease',
+              pointerEvents: 'none'
+            }}
+            stroke="currentColor"
+            strokeWidth="3"
+            fill="none"
+          >
+            <title>Invert colors</title>
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
         </label>
       </div>
 
@@ -216,93 +269,85 @@ export function LiquidImageControls({ state, setState }: LiquidImageControlsProp
         format={(value) => (value === '0' || value === '10' ? value : Number.parseFloat(value).toFixed(1))}
         onValueChange={(value) => setState((state) => ({ ...state, patternScale: value }))}
       />
+
+      <div
+        style={{
+          gridColumn: 'span 3',
+          fontSize: '13px',
+          opacity: 0.8,
+          marginTop: '8px',
+          maxWidth: '300px',
+          lineHeight: '1.4'
+        }}
+      >
+        💡 Tip: transparent or white background is required. Shapes work better than words. Use an SVG or a
+        high-resolution image.
+      </div>
     </div>
-  );
+  )
 }
 
 interface ControlProps {
-  label: string;
-  min: number;
-  max: number;
-  step: number;
-  format?: (value: string) => string;
-  value: number;
-  onValueChange: (value: number) => void;
+  label: string
+  min: number
+  max: number
+  step: number
+  format?: (value: string) => string
+  value: number
+  onValueChange: (value: number) => void
 }
 
 function Control({ label, min, max, step, format, value, onValueChange }: ControlProps) {
   if (value < min || value > max) {
-    consoleError(`"${label}" value (${value}) is outside allowed range [${min}, ${max}]`);
+    consoleError(`"${label}" value (${value}) is outside allowed range [${min}, ${max}]`)
   }
+
+  const percentage = ((value - min) / (max - min)) * 100
 
   return (
     <>
-      <div>
-        <label style={{ whiteSpace: 'nowrap', paddingRight: '16px', color: 'var(--color-white)' }} htmlFor={label}>
+      <div style={{ minWidth: '80px' }}>
+        <label style={{ fontSize: '13px', fontWeight: 500 }} htmlFor={label}>
           {label}
         </label>
       </div>
-      <div>
-        <Slider.Root
-          min={min}
-          max={max}
-          step={step}
-          value={[value]}
-          onValueChange={([value]) => onValueChange(value)}
+      <div style={{ width: '120px' }}>
+        <div
           style={{
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
             width: '100%',
-            height: '32px',
+            height: '24px',
             touchAction: 'none',
-            userSelect: 'none',
+            userSelect: 'none'
           }}
         >
-          <Slider.Track
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={(e) => onValueChange(Number(e.target.value))}
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              position: 'relative',
-              flexGrow: 1,
-              height: '6px',
+              width: '100%',
+              height: '3px',
+              WebkitAppearance: 'none',
+              appearance: 'none',
+              background: `linear-gradient(to right,
+                rgba(93, 188, 255, 0.8) 0%,
+                rgba(93, 188, 255, 0.8) ${percentage}%,
+                rgba(255, 255, 255, 0.1) ${percentage}%,
+                rgba(255, 255, 255, 0.1) 100%
+              )`,
               borderRadius: '9999px',
-              overflow: 'hidden',
+              outline: 'none',
+              cursor: 'pointer'
             }}
-          >
-            <Slider.Range
-              style={{
-                position: 'absolute',
-                backgroundColor: 'var(--color-blue)',
-                height: '100%',
-              }}
-            />
-          </Slider.Track>
-          <Slider.Thumb
-            style={{
-              display: 'block',
-              width: '16px',
-              height: '16px',
-              backgroundColor: 'white',
-              borderRadius: '9999px',
-              boxShadow: '0 2px 6px -2px rgba(0, 0, 0, 0.3)',
-              cursor: 'pointer',
-              transition: 'transform 0.2s ease',
-              transform: 'scale(1)',
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.transform = 'scale(1.1)';
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.transform = 'scale(1)';
-            }}
-            onMouseDown={(e) => {
-              (e.target as HTMLElement).style.transform = 'scale(0.95)';
-            }}
-            onMouseUp={(e) => {
-              (e.target as HTMLElement).style.transform = 'scale(1)';
-            }}
+            className="custom-range"
           />
-        </Slider.Root>
+        </div>
       </div>
       <div>
         <NumberInput
@@ -313,20 +358,21 @@ function Control({ label, min, max, step, format, value, onValueChange }: Contro
           format={format}
           style={{
             borderRadius: '4px',
-            height: '40px',
-            width: '100%',
-            background: 'rgba(255, 255, 255, 0.15)',
-            paddingLeft: '12px',
-            fontSize: 'var(--text-sm)',
+            height: '22px',
+            width: '64px',
+            background: 'rgba(255, 255, 255, 0.1)',
+            paddingLeft: '6px',
+            fontSize: '12px',
+            fontWeight: '500',
             fontVariantNumeric: 'tabular-nums',
-            outline: '1px solid rgba(255, 255, 255, 0.2)',
-            color: 'var(--color-white)',
-            transition: 'all 0.2s ease',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            color: 'white',
+            transition: 'all 0.2s ease'
           }}
           value={value.toString()}
           onValueCommit={(value) => onValueChange(Number.parseFloat(value))}
         />
       </div>
     </>
-  );
+  )
 }
