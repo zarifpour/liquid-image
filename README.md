@@ -7,6 +7,7 @@
 A React component for creating liquid metal effects on images.
 
 Just for fun, complete ripoff of: <a href="https://liquid.paper.design">liquid.paper.design</a>
+- https://github.com/paper-design/liquid-logo
 
 ## Installation
 
