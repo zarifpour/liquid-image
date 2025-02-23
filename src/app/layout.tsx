@@ -25,6 +25,7 @@ export default function Home() {
             <Suspense>
               <LiquidImage src="/logos/apple.png" height={200} width={200} />
               <LiquidImage src="/logos/apple.png" height={200} width={200} invert showControls />
+              <LiquidImage src="/droplet.png" height={500} />
             </Suspense>
           </div>
         </div>

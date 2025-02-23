@@ -140,12 +140,14 @@ export function LiquidImageControls({ state, setState }: LiquidImageControlsProp
           <input
             style={{ width: '0', height: '0', opacity: 0 }}
             type="color"
-            onChange={(event) =>
-              setState((prevState) => ({
-                ...prevState,
-                background: event.currentTarget.value
-              }))
-            }
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              if (event.target) {
+                setState((prevState) => ({
+                  ...prevState,
+                  background: event.target.value
+                }))
+              }
+            }}
           />
           Custom
         </label>
@@ -281,7 +283,7 @@ export function LiquidImageControls({ state, setState }: LiquidImageControlsProp
         }}
       >
         💡 Tip: transparent or white background is required. Shapes work better than words. Use an SVG or a
-        high-resolution image.
+        high-resolution image. Blur the image to make it look more smooth.
       </div>
     </div>
   )

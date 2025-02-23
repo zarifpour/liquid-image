@@ -124,7 +124,7 @@ export function LiquidImage({
             // If both width and height are provided, just use them
             finalWidth = width
             finalHeight = height
-          } else {
+          } else if (width !== undefined || height !== undefined) {
             // Calculate scale factors
             const scaleWidth = width !== undefined ? width / actualWidth : Number.POSITIVE_INFINITY
             const scaleHeight = height !== undefined ? height / actualHeight : Number.POSITIVE_INFINITY
