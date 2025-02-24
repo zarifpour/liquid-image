@@ -4,11 +4,7 @@
   "private": false,
   "main": "src/index.tsx",
   "types": "src/index.tsx",
-  "files": [
-    "src/components",
-    "src/utils",
-    "README.md"
-  ],
+  "files": ["src/components", "src/utils", "README.md"],
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
@@ -25,6 +21,7 @@
     "@biomejs/biome": "^1.9.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "lefthook": "^1.11.0",
     "typescript": "^5"
   }
 }

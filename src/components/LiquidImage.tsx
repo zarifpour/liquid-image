@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { LiquidImageControls } from './LiquidImageControls'
 import { Canvas } from '../utils/canvas'
 import { consoleError } from '../utils/logger'
 import { type ShaderParams, defaultParams } from '../utils/params'
+import { LiquidImageControls } from './LiquidImageControls'
 
 type State = ShaderParams & {
   background: string

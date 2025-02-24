@@ -1,8 +1,8 @@
 'use client'
 
-import { LiquidImage } from '../components/LiquidImage'
 import type { Viewport } from 'next/types'
 import { Suspense } from 'react'
+import { LiquidImage } from '../components/LiquidImage'
 
 export default function Home() {
   return (
