@@ -1,27 +1,30 @@
 {
   "name": "liquid-image",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.6",
   "private": false,
-  "main": "src/index.tsx",
-  "types": "src/index.tsx",
-  "files": ["src/components", "src/utils", "README.md"],
+  "files": ["dist", "src/components", "src/utils", "src/index.tsx", "README.md"],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "bunx @biomejs/biome lint --write ./src",
+    "build": "tsup src/index.tsx --format cjs,esm --dts --external react react-dom --treeshake --clean",
     "check": "bunx @biomejs/biome check --write ./src",
-    "format": "bunx @biomejs/biome format --write ./src"
+    "dev": "next dev --turbopack",
+    "dev:build": "next build",
+    "format": "bunx @biomejs/biome format --write ./src",
+    "lint": "bunx @biomejs/biome lint --write ./src",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "lefthook": "^1.11.0",
+    "tsup": "^8.0.0",
     "typescript": "^5"
   }
 }

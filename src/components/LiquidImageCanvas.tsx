@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { liquidFragSource } from './liquid-frag'
-import { consoleError } from './logger'
+import { liquidFragSource } from '../utils/liquid-frag'
+import { consoleError } from '../utils/logger'
+import type { ShaderParams } from '../utils/params'
 
 const vertexShaderSource = `#version 300 es
 precision mediump float;
@@ -13,15 +14,6 @@ void main() {
     vUv = .5 * (a_position + 1.);
     gl_Position = vec4(a_position, 0.0, 1.0);
 }` as const
-
-export type ShaderParams = {
-  patternScale: number
-  refraction: number
-  edge: number
-  patternBlur: number
-  liquid: number
-  speed: number
-}
 
 export function Canvas({
   imageData,

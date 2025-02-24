@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { Canvas } from '../utils/canvas'
 import { consoleError } from '../utils/logger'
 import { type ShaderParams, defaultParams } from '../utils/params'
+import { Canvas } from './LiquidImageCanvas'
 import { LiquidImageControls } from './LiquidImageControls'
 
 type State = ShaderParams & {
@@ -27,7 +27,7 @@ export interface LiquidImageProps {
 }
 
 /**
- * Hero component for the Liquid Logo Generator
+ * Liquid metal image component
  * @param src - The URL of the image to display
  * @param invert - Invert the liquid image
  * @param className - The className of the container
