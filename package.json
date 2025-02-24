@@ -1,6 +1,10 @@
 {
   "name": "liquid-image",
-  "version": "0.1.0-alpha.6",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zarifpour/liquid-image.git"
+  },
+  "version": "0.1.0-alpha.7",
   "private": false,
   "files": ["dist", "src/components", "src/utils", "src/index.tsx", "README.md"],
   "main": "dist/index.js",
